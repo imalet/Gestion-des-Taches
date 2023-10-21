@@ -1,5 +1,13 @@
 <?php
-session_start();
+require('traitement.php');
+// RECUPERATION DES TACHES DES EMPLOYES
+$req = $db->prepare("SELECT * FROM tasks WHERE id_employe = :id ");
+$req->bindParam(':id', $_SESSION['id']);
+$req->execute();
+
+$resultat = $req->fetchAll();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -101,28 +109,22 @@ session_start();
 <body>
     <div class="navbar">
         <h1 class="leye">Gestion de Mes Tâches</h1>
-        <p><?php  echo $_SESSION['nom']  ?></p>
+        <p><?php echo $_SESSION['nom']  ?></p>
     </div>
 
-    <div class="task-container">
-        <h1 class="lp">Préparation d'un Rapport de Vente</h1>
-        <p>Recueillir les données de vente, générer des graphiques et rédiger un rapport détaillé.</p>
+    <?php foreach ($resultat as $key => $value) { ?>
+
+        <div class="task-container">
+        <h1 class="lp"> <?php echo $value['titre']  ?> </h1>
+        <p><?php echo $value['description']  ?></p>
         <div class="inline-elements">
-            <p>Priorité: Haute</p>
-            <p>Statut: En cours</p>
-            <button>Voir les détails</button>
+            <p>Priorité: <?php echo $value['priorite']  ?></p>
+            <p>Statut: <?php echo $value['statut'] ?></p>
+            <button><a href="taskdetails.php">Voir les détails</a></button>
         </div>
     </div>
 
-    <!-- <div class="task-container">
-        <h1 class="lp">Préparation d'un Rapport de Vente</h1>
-        <p>Recueillir les données de vente, générer des graphiques et rédiger un rapport détaillé.</p>
-        <div class="inline-elements">
-            <p>Priorité: Haute</p>
-            <p>Statut: En cours</p>
-            <button>Voir les détails</button>
-        </div>
-    </div> -->
+<?php } ?>
 
     <h1 class="lop">Ajouter une Nouvelle Tâche</h1>
     <div class="task-form">

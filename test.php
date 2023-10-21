@@ -1,10 +1,12 @@
 <?php
 
+if (isset($_POST['status'])) {
 
-$date = '1023-31-31';
+    // SUPPRIMER UNE TACHE
+    $req = $db->prepare("DELETE FROM tasks WHERE id = :id ");
+    $req->bindParam(':id', $_POST['id']);
+    $req->execute();
 
-if (preg_match('/^20[2-9]-(0?[1-9]|1[0-9]|2[0-9]|3[01])-(0?[1-9]|1[0-9]|2[0-9]|3[01])$/', $date)) {
-    echo "Top";
-}else {
-    echo "Bad";
+} elseif (isset($_POST['delete'])) {
+    echo "Delete";
 }

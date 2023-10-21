@@ -1,5 +1,30 @@
-<?php 
-session_start();
+<?php
+require('traitement.php');
+
+// RECUPERATION DES TACHES DES EMPLOYES
+$req = $db->prepare("SELECT * FROM tasks WHERE id_employe = :id ");
+$req->bindParam(':id', $_SESSION['id']);
+$req->execute();
+
+$resultat = $req->fetchAll();
+
+// SUPPRIMER UNE TACHE
+if (isset($_POST['delete'])) {
+
+    $req = $db->prepare("DELETE FROM tasks WHERE id = :id ");
+    $req->bindParam(':id', $_POST['id']);
+    $req->execute();
+}
+
+// MODIFIER UNE TACHE
+if (isset($_POST['status'])) {
+
+    $req = $db->prepare("UPDATE tasks SET statut = 'Termine' WHERE id = :id ");
+    $req->bindParam(':id', $_POST['id']);
+    $req->execute();
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +47,7 @@ session_start();
         }
 
         .task-container {
-            
+
             margin: 50px auto;
             background-color: white;
             padding: 20px;
@@ -30,7 +55,7 @@ session_start();
             width: 60%;
         }
 
-        .leye {
+        .benji {
             color: white;
         }
 
@@ -46,7 +71,7 @@ session_start();
             display: flex;
             justify-content: start;
             align-items: center;
-           
+
         }
 
         .task-container .inline-elements p {
@@ -72,20 +97,28 @@ session_start();
 
 <body>
     <div class="navbar">
-        <h1 class="leye">Details tach : Preparation d'un rapport de ventes</h1>
-        
+        <h1 class="benji">Details tach : Preparation d'un rapport de ventes</h1>
+
     </div>
 
-    <div class="task-container">
-        <h1 class="lp">Préparation d'un Rapport de Vente</h1>
-        <p>Priorité: Haute</p>
-        <p>Statut: En cours</p>
-        <p>Recueillir les données de vente, générer des graphiques et rédiger un rapport détaillé.</p>
-        <div class="inline-elements">
-              <button>Statut terminé</button>
-            <button class="red-button">Supprimer tâche</button>
+    <?php foreach ($resultat as $key => $value) { ?>
+
+        <div class="task-container">
+            <form action="" method="post">
+                <h1 class="lp"><?php echo $value['titre']  ?></h1>
+                <p name="priorite">Priorité: <?php echo $value['priorite']  ?></p>
+                <p>Statut: <?php echo $value['statut']  ?></p>
+                <p>Description : <?php echo $value['description']  ?></p>
+                <p><?php echo $value['description']  ?></p>
+                <input type="text" name="id" value="<?php echo $value['id']  ?>" hidden>
+                <div class="inline-elements">
+                    <button name="status" type="submit">Statut terminé</button>
+                    <button name="delete" type="submit" class="red-button">Supprimer la tâche</button>
+                </div>
+            </form>
         </div>
-    </div>
+
+    <?php } ?>
 
 </body>
 
