@@ -128,7 +128,6 @@ try {
             }
         }
     }
-
     
 } catch (PDOException $e) {
     echo "Faile Connexion" . $e->getMessage();

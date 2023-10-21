@@ -14,6 +14,8 @@ if (isset($_POST['delete'])) {
     $req = $db->prepare("DELETE FROM tasks WHERE id = :id ");
     $req->bindParam(':id', $_POST['id']);
     $req->execute();
+
+    header('location: taskdetails.php');
 }
 
 // MODIFIER UNE TACHE
