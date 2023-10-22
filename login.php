@@ -104,6 +104,7 @@
                     <label for="login-pwd">Mot de passe :</label><br>
                     <input type="password" id="login-pwd" name="login-pwd" required>
                 </div>
+                <a href="reset.php">Mot de passe oublié</a>
                 <button name="login" type="submit">Se Connecter</button>
             </form>
         </div>

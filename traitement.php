@@ -51,6 +51,8 @@ try {
                 $req->bindParam(':pwd', $pwd);
 
                 $req->execute();
+
+                header('location:login.php');
             }
         }
     }

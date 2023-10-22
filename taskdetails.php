@@ -6,7 +6,9 @@ $req = $db->prepare("SELECT * FROM tasks WHERE id_employe = :id ");
 $req->bindParam(':id', $_SESSION['id']);
 $req->execute();
 
+
 $resultat = $req->fetchAll();
+
 
 // SUPPRIMER UNE TACHE
 if (isset($_POST['delete'])) {
@@ -24,6 +26,8 @@ if (isset($_POST['status'])) {
     $req = $db->prepare("UPDATE tasks SET statut = 'Termine' WHERE id = :id ");
     $req->bindParam(':id', $_POST['id']);
     $req->execute();
+
+    header('location: taskdetails.php');
 }
 
 

@@ -1,4 +1,5 @@
 <?php
+
 require('traitement.php');
 // RECUPERATION DES TACHES DES EMPLOYES
 $req = $db->prepare("SELECT * FROM tasks WHERE id_employe = :id ");
@@ -148,6 +149,7 @@ $resultat = $req->fetchAll();
             <label for="description">Description:</label>
             <textarea id="description" name="description" rows="4"></textarea>
             <button type="submit" name="addTask">Envoyer</button>
+            <a href="deconnexion.php" name="addTask">Envoyer</a>
         </form>
     </div>
 </body>
